@@ -1,0 +1,55 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+const props = withDefaults(defineProps<{
+  title: string;
+  inputValue: number;
+  errorMessage?: string;
+}>(), {
+  inputValue: 0,
+  title: '',
+});
+
+const inputRefId = computed(() => {
+  const randomString = Math.random().toString(16).slice(2);
+  return `${randomString}_${props.title}`;
+});
+
+const emits = defineEmits<{(e: 'update:inputValue', currentInput: number): void,
+}>();
+
+const inputTextboxHandler = (inputEvent: Event) => {
+  const inputElement = <HTMLInputElement>inputEvent.target;
+  if (Number.isNaN(inputElement.value)) {
+    emits('update:inputValue', 0);
+    return;
+  }
+  emits('update:inputValue', Number(inputElement.value));
+};
+
+</script>
+
+<template>
+    <div
+      class="flex items-center space-x-4 mb-4"
+    >
+      <label 
+        :for="inputRefId"
+      >
+        <span class="text-red-500">*</span>
+        {{ title }}
+      </label>
+      <input
+        @input="inputTextboxHandler"
+        :value="inputValue"
+        :id="inputRefId"
+        class="rounded-xl px-3 py-2 border border-gray-400"
+        type="number"
+      >
+    </div>
+    <div
+      v-if="errorMessage"
+      class="text-red-500"
+    >
+      <small>{{ errorMessage }}</small>
+    </div>
+</template>
