@@ -2,12 +2,11 @@
 import { useField, useForm } from 'vee-validate';
 import { toFormValidator } from '@vee-validate/zod';
 import * as zod from 'zod';
+import { Ref, ref } from 'vue';
 import { CurrentUserStatus, InputCategoryType } from '../datatype/mainTest';
 import BaseInput from './BaseInput.vue';
 import BaseNumberInput from './BaseNumberInput.vue';
 import BaseCheckBoxGroup from './BaseCheckBoxGroup.vue';
-import { Ref, ref } from 'vue';
-
 
 const validationSchema = toFormValidator(zod.object({
   userName: zod.string({
@@ -49,7 +48,7 @@ const inputCategory: Ref<InputCategoryType[]> = ref([
     inputValue: CurrentUserStatus.IS_BAD,
     inputText: '不好',
   },
-])
+]);
 
 const {
   value: userName,
@@ -150,9 +149,9 @@ const resetAllPlatform = () => {
         <span class="text-red-500">*</span>
         是否啟用
       </label>
-      <input 
+      <input
         v-model="isEnabled"
-        id="current_checkbox" 
+        id="current_checkbox"
         type="checkbox"
       >
     </div>
@@ -162,7 +161,7 @@ const resetAllPlatform = () => {
       </small>
     </div>
 
-    <div 
+    <div
       class="space-x-4"
     >
       <button
