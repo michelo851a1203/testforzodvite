@@ -36,7 +36,7 @@ const checkBoxChangeEventHandler = (checkboxEvent: Event, checkboxValue: number)
 
 <template>
   <div
-    class="flex items-center space-x-4 mb-4"
+    class="flex items-center space-x-4 mt-4"
   >
     <div>
       <span class="text-red-500">*</span>

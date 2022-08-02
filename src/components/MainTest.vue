@@ -20,7 +20,7 @@ const validationSchema = toFormValidator(zod.object({
   userAmount: zod.number({
     invalid_type_error: '請輸入數字',
     required_error: '此欄位必須有',
-  }),
+  }).positive('請輸入 >0 的數').lte(100, '數字太大了，受不了'),
   inputDate: zod.string().refine((inputDateInfo) => {
     const inputTestDate = Date.parse(inputDateInfo);
     if (Number.isNaN(inputTestDate)) return false;
@@ -28,12 +28,20 @@ const validationSchema = toFormValidator(zod.object({
   }, {
     message: '請輸入日期格式',
   }),
-  currentUserStatus: zod.nativeEnum(CurrentUserStatus),
+  currentUserStatus: zod.nativeEnum(CurrentUserStatus, {
+    errorMap: () => ({
+      message: '請勾選才會正確唷',
+    }),
+  }),
   isEnabled: zod.boolean({
     required_error: '需要需要狀態',
     invalid_type_error: '無效的狀態',
   }),
 }));
+
+const { handleSubmit, resetForm } = useForm({
+  validationSchema,
+});
 
 const inputCategory: Ref<InputCategoryType[]> = ref([
   {
@@ -92,10 +100,6 @@ const {
   initialValue: false,
 });
 
-const { handleSubmit, resetForm } = useForm({
-  validationSchema,
-});
-
 const currentSubmit = handleSubmit((submitInfo) => {
   console.log(submitInfo);
 });
@@ -144,7 +148,7 @@ const resetAllPlatform = () => {
     >
     </BaseCheckBoxGroup>
 
-    <div class="flex items-center space-x-4 mb-4">
+    <div class="flex items-center space-x-4 mt-4">
       <label for="current_checkbox">
         <span class="text-red-500">*</span>
         是否啟用
@@ -162,7 +166,7 @@ const resetAllPlatform = () => {
     </div>
 
     <div
-      class="space-x-4"
+      class="space-x-4 mt-4"
     >
       <button
         @click="resetAllPlatform"

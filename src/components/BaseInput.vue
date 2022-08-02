@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+
 const props = withDefaults(defineProps<{
   title: string;
   inputValue: string;
@@ -28,9 +29,9 @@ const inputTextboxHandler = (inputEvent: Event) => {
 
 <template>
     <div
-      class="flex items-center space-x-4 mb-4"
+      class="flex items-center space-x-4 mt-4"
     >
-      <label 
+      <label
         :for="inputRefId"
       >
         <span class="text-red-500">*</span>
